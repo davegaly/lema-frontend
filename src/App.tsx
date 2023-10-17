@@ -1,10 +1,15 @@
 import { FC } from 'react';
-
+import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom'; 
+import DashboardPage from './pages/dashboardPage';
+import DepartmentsPage from './pages/admin/departmentsPage';
 import './style.css';
 
 export const App: FC<{ name: string }> = ({ name }) => {
-  // read all entities
-  fetch('https://swift-fragrant-deer.glitch.me/departments/list', {
+  
+  /*
+  // read all entitie
+  // https://api.artic.edu/api/v1/artworks/search?q=cats
+  fetch('https://swift-fragrant-deer.glitch.me/departments/getbyid/1', {
     method: 'GET',
   })
     .then((response) => response.json())
@@ -15,13 +20,27 @@ export const App: FC<{ name: string }> = ({ name }) => {
       console.log('dave');
       console.log(err);
     });
+  */
 
   return (
-    <div>
-      <h1>Hello {name}!</h1>
-      <p>Start editing to see some magic happen1asd :)</p>
-    </div>
+    <Router> 
+        <div className="App"> 
+            <ul className="App-header"> 
+            <li> 
+                <Link to="/">Dashboard</Link> 
+            </li> 
+            <li> 
+                <Link to="/admin/department">Manage dept</Link> 
+            </li> 
+            </ul> 
+        <Routes> 
+                <Route path='/' element={< DashboardPage />}></Route> 
+                <Route path='/admin/department' element={< DepartmentsPage />}></Route> 
+        </Routes> 
+        </div> 
+    </Router> 
   );
+
 };
 
-// https://api.artic.edu/api/v1/artworks/search?q=cats
+
