@@ -18,9 +18,10 @@ const DepartmentsPage = () => {
     }
 
     const saveDepartment = async () => {
-      const response = await axios.post("https://swift-fragrant-deer.glitch.me/departments/update",
+      const response = await axios.post("https://swift-fragrant-deer.glitch.me/departments/save",
         {id:departmentEditId, name:departmentEditName}
       );
+      getList();
     }
 
     const listEditClick = (departmentId) => {
