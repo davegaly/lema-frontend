@@ -4,29 +4,39 @@ import axios from 'axios';
 const DepartmentsPage = () => {
 
     const [departmentsList, setDepartmentsList] = useState([])
-    const [departmentEdit, setDepartmentEdit] = useState({})
+    const [departmentEditId, setDepartmentEditId] = useState(0)
+    const [departmentEditName, setDepartmentEditName] = useState('')
 
     const getList = async () => {
       const response = await axios.get("https://swift-fragrant-deer.glitch.me/departments/list");
       setDepartmentsList(response.data);
     }
 
-    const getSingleDepartment = () => {
-      fetch("https://swift-fragrant-deer.glitch.me/departments/getbyid/")
-        .then(response => {
-          return response.json()
-        })
-        .then(data => {
-          setUsers(data)
-        })
+    const getSingleDepartment = async () => {
+      const response = await axios.get("https://swift-fragrant-deer.glitch.me/departments/getbyid/" + departmentEditId);
+      setDepartmentEditName(response.data.name);
     }
 
     const saveDepartment = async () => {
-      const response = await axios.post("https://swift-fragrant-deer.glitch.me/departments/update",{id:1, name:'ciao'});
-      console.log(response.data);
+      const response = await axios.post("https://swift-fragrant-deer.glitch.me/departments/update",
+        {id:departmentEditId, name:departmentEditName}
+      );
+    }
+
+    const listEditClick = (departmentId) => {
+      setDepartmentEditId(departmentId);
+    }
+
+    const saveClick = () => {
+      saveDepartment();
     }
   
     useEffect(() => {getList()}, [])
+    useEffect(() => {
+      if (departmentEditId > 0) {
+        getSingleDepartment();
+      }
+    }, [departmentEditId]);
 
     return (
         <div>
@@ -35,13 +45,16 @@ const DepartmentsPage = () => {
             {departmentsList.length > 0 && (
                 <ul>
                 {departmentsList.map(department => (
-                    <li key={department.id}>{department.name}</li>
+                    <li key={department.id}>{department.name}
+                    <button onClick={()=>listEditClick(department.id)}>Edit</button>
+                    </li>
                 ))}
                 </ul>
             )}
             </div>
             <div>
-              <input type="text" ></input>
+              <input type="text" value={departmentEditName} onChange={e => setDepartmentEditName(e.target.value)}></input>
+              <button onClick={()=>saveClick()}>Save</button>
             </div>
         </div>
     )
