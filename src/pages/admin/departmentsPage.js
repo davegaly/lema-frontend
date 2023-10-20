@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+var LEMABACKEND_ROOT_URL = "https://dolomite-imaginary-locust.glitch.me";
 
 const DepartmentsPage = () => {
 
@@ -8,17 +9,17 @@ const DepartmentsPage = () => {
     const [departmentEditName, setDepartmentEditName] = useState('')
 
     const getList = async () => {
-      const response = await axios.get("https://swift-fragrant-deer.glitch.me/departments/list");
+      const response = await axios.get(LEMABACKEND_ROOT_URL + "/api/departments/listall");
       setDepartmentsList(response.data);
     }
 
     const getSingleDepartment = async () => {
-      const response = await axios.get("https://swift-fragrant-deer.glitch.me/departments/getbyid/" + departmentEditId);
+      const response = await axios.get(LEMABACKEND_ROOT_URL + "/api/departments/getbyid/" + departmentEditId);
       setDepartmentEditName(response.data.name);
     }
 
     const saveDepartment = async () => {
-      const response = await axios.post("https://swift-fragrant-deer.glitch.me/departments/save",
+      const response = await axios.post(LEMABACKEND_ROOT_URL + "/api/departments/save",
         {id:departmentEditId, name:departmentEditName}
       );
       getList();
