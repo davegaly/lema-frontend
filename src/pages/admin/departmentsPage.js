@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-var LEMABACKEND_ROOT_URL = "https://dolomite-imaginary-locust.glitch.me";
+const lemaBEConnector = require('../../connectors/lemaBeConnector.js');
 
 const DepartmentsPage = () => {
 
@@ -9,13 +9,13 @@ const DepartmentsPage = () => {
     const [departmentEditName, setDepartmentEditName] = useState('')
 
     const getList = async () => {
-      const response = await axios.get(LEMABACKEND_ROOT_URL + "/api/departments/listall");
-      setDepartmentsList(response.data);
+      let data = lemaBEConnector.departmentsListAll();
+      setDepartmentsList(data);
     }
 
     const getSingleDepartment = async () => {
-      const response = await axios.get(LEMABACKEND_ROOT_URL + "/api/departments/getbyid/" + departmentEditId);
-      setDepartmentEditName(response.data.name);
+      let data = lemaBEConnector.departmentsGetById(departmentEditId);
+      setDepartmentEditName(data);
     }
 
     const saveDepartment = async () => {
