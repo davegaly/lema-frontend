@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-const lemaBEConnector = require('../../connectors/lemaBeConnector.js');
+import lemaBEConnector from '../../connectors/lemaBeConnector.mjs';
 
 const DepartmentsPage = () => {
 
@@ -9,17 +9,17 @@ const DepartmentsPage = () => {
     const [departmentEditName, setDepartmentEditName] = useState('')
 
     const getList = async () => {
-      let data = lemaBEConnector.departmentsListAll();
-      setDepartmentsList(data);
+      let response = await lemaBEConnector.departments.listAll(); 
+      setDepartmentsList(response.data);
     }
 
     const getSingleDepartment = async () => {
-      let data = lemaBEConnector.departmentsGetById(departmentEditId);
-      setDepartmentEditName(data);
+      let response = await lemaBEConnector.departments.getbyid(departmentEditId); 
+      setDepartmentEditName(response.data.name);
     }
 
     const saveDepartment = async () => {
-      const response = await axios.post(LEMABACKEND_ROOT_URL + "/api/departments/save",
+      let response = await lemaBEConnector.departments.save(
         {id:departmentEditId, name:departmentEditName}
       );
       getList();
