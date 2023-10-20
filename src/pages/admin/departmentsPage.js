@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import lemaBEConnector from '../../connectors/lemaBeConnector.mjs';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 
 const DepartmentsPage = () => {
 
@@ -32,6 +36,11 @@ const DepartmentsPage = () => {
     const saveClick = () => {
       saveDepartment();
     }
+
+    const rowClick = (e) => {
+      console.log(e.data.id);
+      setDepartmentEditId(e.data.id);
+    }
   
     useEffect(() => {getList()}, [])
     useEffect(() => {
@@ -44,19 +53,13 @@ const DepartmentsPage = () => {
         <div>
             <h1>Departments management</h1>
             <div>
-            {departmentsList.length > 0 && (
-                <ul>
-                {departmentsList.map(department => (
-                    <li key={department.id}>{department.name}
-                    <button onClick={()=>listEditClick(department.id)}>Edit</button>
-                    </li>
-                ))}
-                </ul>
-            )}
+              <DataTable value={departmentsList} onRowClick={rowClick}>
+                  <Column field="name" header="Name"></Column>
+              </DataTable>
             </div>
             <div>
-              <input type="text" value={departmentEditName} onChange={e => setDepartmentEditName(e.target.value)}></input>
-              <button onClick={()=>saveClick()}>Save</button>
+              <InputText value={departmentEditName} onChange={(e) => setDepartmentEditName(e.target.value)} />
+              <Button label="Submit" onClick={()=>saveClick()}/>
             </div>
         </div>
     )

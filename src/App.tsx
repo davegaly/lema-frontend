@@ -1,28 +1,15 @@
 import { FC } from 'react';
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom'; 
+import { PrimeReactProvider } from 'primereact/api';
 import DashboardPage from './pages/dashboardPage';
 import DepartmentsPage from './pages/admin/departmentsPage';
 import './style.css';
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 
 export const App: FC<{ name: string }> = ({ name }) => {
   
-  /*
-  // read all entitie
-  // https://api.artic.edu/api/v1/artworks/search?q=cats
-  fetch('https://swift-fragrant-deer.glitch.me/departments/getbyid/1', {
-    method: 'GET',
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((err) => {
-      console.log('dave');
-      console.log(err);
-    });
-  */
-
   return (
+    <PrimeReactProvider>
     <Router> 
         <div className="App"> 
             <ul className="App-header"> 
@@ -39,6 +26,7 @@ export const App: FC<{ name: string }> = ({ name }) => {
         </Routes> 
         </div> 
     </Router> 
+    </PrimeReactProvider>
   );
 
 };
