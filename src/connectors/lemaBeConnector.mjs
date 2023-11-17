@@ -1,9 +1,8 @@
 
-
-var LEMABACKEND_ROOT_URL = "https://dolomite-imaginary-locust.glitch.me";
-//const axios = require('axios');
 import axios from 'axios';
 
+var LEMABACKEND_ROOT_URL = process.env["REACT_APP_BACKEND_ENDPOINT"]
+//"https://dolomite-imaginary-locust.glitch.me";
 
 const connector = {}
 
